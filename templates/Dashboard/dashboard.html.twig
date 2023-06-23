@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Dashboard
+{% endblock %}
+{% block col_username %}
+	<div class="row align-items-end container-row m-0 text-primary">
+		<div class="col p-0">
+			<div class="text-center pb-5">
+				<h4 class="row align-items-center">
+					<i class="fa-solid fa-user"></i><br>
+					{% if app.user %}
+						<strong class="text-primary">
+							<i>{{ app.user.username|first|capitalize }}{{ app.user.nom[:2]|upper}}</i>
+						</strong>
+					</h4>
+					<h4 class="pt-3">
+						<a href="{{ path("security_logout")}}" class="text-decoration-none">
+							<i class="fa-solid fa-right-from-bracket text-primary text-center p-0 m-0"></i>
+							<i class="text-primary fs-6 d-block">Deconnexion</i>
+						</a>
+					</h4>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block col_menu %}
+	<ul class="navbar-nav me-auto text-primary pt-5">
+		{% if app.user %}
+			<li class="nav-item">
+				<h4>
+					<a class="nav-link" href="{{ path("recapCommand")}}">
+						Commandes
+					</a>
+				</h4>
+			</li>
+			<li class="nav-item">
+				<h4>
+					<a class="nav-link" href="{{ path("liste_operations") }}">
+						Opérations
+					</a>	
+				</h4>
+			</li>
+		{% endif %}
+
+	</ul>
+{% endblock %}
+{% block col_content %}{% endblock %}

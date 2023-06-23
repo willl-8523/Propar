@@ -1,0 +1,36 @@
+{% extends "dashboard/expertDashboard.html.twig" %}
+
+
+{% block title %}Ajout opérations
+{% endblock %}
+
+
+{% block col_content %}
+
+
+    {{ form_start(form,  {'attr': {'class' : "mx-auto mt-5"}}) }}
+
+
+	{{ form_row(form.email_user, {'label': 'Email operateur', 'attr': {'value': (app.user.email), 'readonly': true, 'class' : "text-primary" }}) }}
+
+	{{ form_row(form.name_customer, {'label': 'Nom Client', 'attr': {'value': (command.nameCustomer), 'readonly': true}}) }}
+
+	{{ form_row(form.num_command, {'label': 'Numero commande', 'attr': {'value': (command.id), 'readonly': true}}) }}
+
+	{{ form_row(form.email_customer, {'label': 'Email client', 'attr': {'value': (command.emailCustomer), 'readonly': true }}) }}
+
+
+	{{ form_row(form.description, {'attr': {'value': (command.description), 'placeholder': (command.description), 'readonly': true }}) }}
+
+	{{ form_row(form.type_operation) }}
+
+
+        <div class="form-group d-flex mt-2 float-end">
+            <button name="submit" type="submit" class="btn btn-secondary" id="ajout"> Ajouter </button>
+            <a href="{{ path('dashboard') }}" class="btn btn-secondary  ms-5">Annuler</a>
+        </div>
+    {{ form_end(form) }}
+
+
+
+{% endblock %}

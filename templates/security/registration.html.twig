@@ -1,0 +1,79 @@
+
+{% extends "dashboard/expertDashboard.html.twig" %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
+{% endblock %}
+{% block col_content %}
+        {{ form_start(form,  {'attr': {'class' : "w-50 mx-auto mt-5"}}) }}
+            <div class="row">
+                <h4 class="mb-3 text-primary">
+                    {% if isModif %}
+                        Modification
+                    {% else %}
+                        Inscription
+                    {% endif %}
+                </h4>
+                <div class="col me-5">
+                    {{ form_row(form.nom, {'label': 'Nom', 'attr': {'placeholder': 'Saisir nom'}}) }}
+                    {{ form_row(form.prenom, {'label': 'Prenom', 'attr': {'placeholder': 'saisir prenom'}}) }}
+                    {{ form_row(form.date_naissance, {'label': 'Date de naissance', 'attr': {'placeholder': 'Saisir date de naissance'}}) }}
+                    {{ form_row(form.username, {'label': 'Nom utilisateur', 'attr': {'placeholder': 'nom d\'utilisateur'}}) }}
+                    {{ form_row(form.adresse, {'label': 'Adresse', 'attr': {'placeholder': 'saisir une adresse'}}) }}
+                </div>
+                <div class="col">
+                    {{ form_row(form.email, {'attr': {'placeholder': 'Adresse mail'}}) }}
+                    {{ form_row(form.profil, {'label': 'Profil'}) }}
+                    {{ form_row(form.password, {'label': 'Mot de passe', 'attr': {'placeholder': 'Mot de passe'}}) }}
+                    {{ form_row(form.confirm_password, {'label': 'Confirme mot de passe', 'attr': {'placeholder': 'répéter votre mot de passe'}}) }}
+                    {{ form_row(form.civilite, {'label': 'Civilité',}) }}
+                    <div class="float-end">
+                        <input type="submit" class="btn btn-success" value= {% if isModif %} "Enregistrer la modification" {% else %} "Inscription"
+                            {% endif %}/>
+                        <a href="{{ path('employes') }}" class="btn btn-success my-3">Annuler</a>
+                    </div>
+                </div>
+            </div>
+        {{ form_end(form) }}
+    <script>
+ 
+        $(document).ready(function(){
+            var parentInput = $("#registration_adresse").parent();
+            parentInput.append("<ul class=\"listeAdresse list-group\"></ul>");
+            $("#registration_adresse").keyup(function(e){
+                e.preventDefault();
+                requeteAjax();
+            });
+
+            $('.listeAdresse').click(function(e){
+                $adresse = e.target.textContent;
+                console.log($adresse);
+                $("#registration_adresse").val($adresse);
+                $("ul.listeAdresse").empty();
+                
+            });
+            
+        });
+
+        function requeteAjax(){
+            $("ul.listeAdresse").empty();
+            $.ajax({
+                url:"https://api-adresse.data.gouv.fr/search/?q=",
+                type:'get',
+                data: {
+                    q : $("#registration_adresse").val(),  // Nous récupérons la valeur de nos input que l'on fait passer à connexion.php
+                    limit : 5,
+                },
+                success:function(response){		
+                    var tabFeatures = response.features;
+                    tabFeatures.forEach(element => {
+                        $(".listeAdresse").append("<li class=\"list-group-item\" id=\"liste\">" + element.properties.label + "</li>");
+                    });
+                },
+                error:function(response){
+                    console.log('error');
+                } 
+            });   
+        }
+    </script>
+{% endblock %}

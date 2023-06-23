@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Dashboard
+{% endblock %}
+
+{% block col_username %}
+
+    <h5 class="text-center m-1">
+        <a href="{{ path("home")}}" class="text-decoration-none">
+            <i class="fa-solid fa-house-chimney text-primary"></i>
+            <h5 class="text-primary"> Accueil </h5>
+        </a>
+    </h5>
+    <div class="row align-items-end container-row m-0 text-primary">
+        <div class="col p-0">
+            <div class="text-center" id="deconnexion">
+                <h5 class="row align-items-center">
+                    <i class="fa-solid fa-user"></i><br>			
+                        <strong class="text-primary"><i>{{ app.user.username|first|capitalize }}{{ app.user.nom[:2]|upper}}</i></strong>
+                </h5>
+                <h5 class="pb-4">
+                    <a href="{{ path("security_logout")}}" class="text-decoration-none">
+                        <i class="fa-solid fa-right-from-bracket text-primary text-center p-0 m-0"></i>
+                        <i class="text-primary fs-6 d-block">Deconnexion</i>
+                    </a>
+                </h5>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block col_menu %}
+	<ul class="nav nav-pills navbar-nav me-auto text-primary pt-5">
+
+		<li class="nav-item dashboard-link">
+			<h5>
+				<a class="nav-link ms-2" href="{{ path("recapCommand")}}">
+					Commandes
+				</a>
+			</h5>
+		</li>
+
+		<li class="nav-item dashboard-link">
+			<h5>
+				<a class="nav-link ms-2" href="{{ path("liste_operations") }}">
+					Mes opérations
+				</a>
+			</h5>
+		</li>
+
+		<li class="nav-item dashboard-link">
+			<h5>
+				<a class="nav-link ms-2" href="{{ path("app_profil") }}" target='_blank'>
+					Contactez collègue
+				</a>
+			</h5>
+		</li>
+
+		{% if app.user.profil == "EXPERT" %}
+			<li class="nav-item dashboard-link">
+				<h5>
+					<a class="nav-link ms-2" href="{{ path("employes") }}">
+						Liste des employés
+					</a>
+				</h5>
+			</li>
+			<li class="nav-item dashboard-link">
+				<h5>
+					<a class="nav-link ms-2" href="{{ path("app_chiffre_affaire") }}">
+						Chiffres d'affaire
+					</a>
+				</h5>
+			</li>
+		{% endif %}
+	</ul>
+{% endblock %}
+
+{% block col_content %}
+
+	<h4 class="text-primary text-center mt-5">Liste des commandes</h4>
+	<table class="table w-75 mx-auto">
+		<tr class="menu-profil text-primary">
+			<td>Nom client</td>
+			<td>Email client</td>
+			<td>Numero commande</td>
+			<td>Description</td>
+			<td>Actions</td>
+		</tr>
+		{% for command in commands %}
+			<tr class="text-primary menu-nav">
+				<td>
+					{{ command.nameCustomer }}
+				</td>
+				<td>
+					{{ command.emailCustomer }}
+				</td>
+				<td>
+					{{ command.id }}
+				</td>
+				<td>
+					{{ command.description }}
+				</td>
+				<td>
+					<a href="{{ path('add_operation', {"id" : command.id}) }}" class="btn btn-success">Ajouter une opération</a>
+				</td>
+			</tr>
+		{% endfor %}
+	</table>
+
+
+	{% for message in app.flashes('wrong') %}
+		<h6 class="text-danger w-75 mx-auto" id="error">
+			⚠
+			{{ message }}</h6>
+	{% endfor %}
+
+{% endblock %}

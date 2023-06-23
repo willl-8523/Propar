@@ -1,0 +1,39 @@
+{% extends 'Dashboard/expertDashboard.html.twig' %}
+
+{% block col_content %}
+
+    <div class="d-flex justify-content-between align-items-center w-75">
+        <h4 class="text-primary">Liste des employés</h4>
+        {% for message in app.flashes('success') %}
+            <h6 class="text-success" id="error">{{ message }}</h6>
+        {% endfor %}
+    </div>
+    <table class="table">
+    <a href="{{ path('security_registration') }}" class="btn btn-success my-3">Ajouter</a>
+        <tr class="menu-profil text-primary">
+            <td>Nom</td>
+            <td>Prenom</td>
+            <td>Date de naissance</td>
+            <td>Email</td>
+            <td>Adresse</td>
+            <td>Actions</td>
+        </tr>
+        {% for user in users %}
+            <tr class="text-primary menu-nav">    
+                <td> {{ user.nom }} </td>
+                <td> {{ user.prenom }} </td> 
+                <td> {{ user.dateNaissance|date("m/d/Y") }} </td> 
+                <td> {{ user.email }} </td>
+                <td> {{ user.adresse }} </td>
+                <td class="d-flex justify-content-between"> 
+                    <a href="{{ path('edit_user', {'id' : user.id }) }}" class="btn btn-success">Modifier</a>
+                    <form method="POST" action="{{ path('supp_employe', {'id' : user.id }) }}" onsubmit="return confirm('Confirmer la suppression')">
+                        <input type="hidden" name="_token" value="{{ csrf_token('SUP' ~ user.id) }}">
+                        <input type="submit" class="btn btn-danger" value="Supprimer"/>
+                    </form>
+                </td>
+            </tr> 
+        {% endfor %}
+    </table>
+
+{% endblock %}

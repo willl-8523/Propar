@@ -1,0 +1,107 @@
+{% block body %}{{ form_start(form)}}
+	<style>
+		body {
+			background-color: #0d3858
+		}
+		.parent {
+			display: grid;
+			grid-template-columns: repeat(15, 1fr);
+			grid-template-rows: repeat(15, 1fr);
+			grid-column-gap: 0;
+			grid-row-gap: 0;
+			height: 93%;
+			width: 78%;
+			margin-left: 10%;
+
+		}
+		.commun {
+			margin: 2% 0;
+			background-color: #9ec1cf;
+			border-radius: 30px;
+			text-align: center;
+
+
+		}
+		.div1 {
+			grid-area: 2 / 5 / 13 / 12;
+			background-color: rgba(103, 150, 171, 0.78);
+			border-radius: 30px;
+			text-align: center;
+			color: white;
+			font-family: 'Open Sans', sans-serif;
+			font-weight: 800;
+			font-size: 150%;
+
+
+		}
+		.div2 {
+			grid-area: 3 / 6 / 4 / 11;
+		}
+		.div3 {
+			grid-area: 4 / 6 / 5 / 11;
+		}
+		.div4 {
+			grid-area: 5 / 6 / 6 / 11;
+		}
+		.div5 {
+			grid-area: 6 / 6 / 7 / 11;
+		}
+		.div6 {
+			grid-area: 7 / 6 / 9 / 11;
+			height: 115%
+		}
+		.div7 {
+			grid-area: 11 / 7 / 12 / 10;
+			background-color: rgb(103, 150, 171);
+			border-radius: 30px;
+			text-align: center;
+			color: white;
+		}
+		.description {
+			padding-top: 10%;
+		}
+	</style>
+	
+	<div class="parent">
+		<div class="div1">Information Commande</div>
+		<pre>
+			{{ dump(app.form) }}
+		</pre>
+		<div class="div2 commun">
+			<p>
+				{{ form(form.name_customer) }}
+				</p>
+			
+		</div>
+		<div class="div3 commun">
+			<p>
+				{{ form(form.prenom_customer) }}
+				</p>
+			
+		</div>
+		<div class="div4 commun">
+			<p>
+				{{ form(form.email_customer) }}
+				</p>
+			
+		</div>
+		<div class="div5 commun">
+			<p>
+				{{ form(form.adress) }}
+				</p>
+			
+		</div>
+		<div class="div6 commun description">
+			<p>
+				{{ form(form.description) }}
+				</p>
+			
+		</div>
+		<div class="div7 ">
+			<p>
+				<button type="submit">validew</button>
+			</p>	
+		</div>
+	</div>{{ form_end(form)}}
+
+{% endblock %}

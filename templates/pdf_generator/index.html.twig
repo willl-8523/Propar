@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>Resume</title>
+
+		<style>
+			.parent {
+				display: grid;
+				grid-template-columns: repeat(5, 1fr);
+				grid-template-rows: repeat(5, 1fr);
+				grid-column-gap: 0;
+				grid-row-gap: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div style="margin: 0 auto;display: block;width: 500px;">
+			<table width="100%" border="1">
+
+				<div class="parent">
+					<div class="div1">
+						<p>
+							Commande numéro :
+							{{ operation.numCommand }}
+						</p>
+						<p>
+							Madame, Monsieur :
+							{{ operation.nameCustomer }}
+						</p>
+						<p>
+							Nous vous adressons ce message pour vous exprimer toute notre reconnaissance d'avoir choisi PROPAR 
+																		et de vous compter parmis nos plus fidèles clients.
+						</p>
+
+						<p>
+							Votre demande était la suivante :
+							{{operation.description}}
+						</p>
+
+						<p>
+							Grace à vos commandes régulières, vous contribuez à soutenir notre positionnement parmi les plus grandes enseignes du marché.
+						</p>
+						<p>
+							Pour toutes questions supplémentaires, concernant l'opération effectuée, vous pouvez me contacter par mail :
+							{{ operation.emailUser }}
+							.
+						</p>
+						<p>
+							Nous saluons votre fidélité encore une fois et vous souhaitons une excellente journée !
+						</p>
+
+
+					</div>
+				</div>
+			</body>
+		</body>
+	</body>
+</html></div></body></html>

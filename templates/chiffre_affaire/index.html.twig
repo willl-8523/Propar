@@ -1,0 +1,31 @@
+{% extends 'dashboard/expertDashboard.html.twig' %}
+
+{% block col_content %}
+  <div id="container"></div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-1">
+        <div class="legende legende-g"></div>
+        <div class="legende legende-m"></div>
+        <div class="legende legende-p"></div>
+      </div>
+      <div class="col-10 text-primary">
+        <div class="legende-lib">
+          Grosse opération: 
+          <b id="opGrosse"> {{ opGrosse }} </b> {% if  opGrosse  is not same as(0) %} <span> K €</span> {% endif %}
+        </div>
+        <div class="legende-lib"> 
+          Moyenne opération: 
+          <b id="opMoyenne"> {{ opMoyenne }} </b> {% if  opMoyenne  is not same as(0) %} <span> K €</span> {% endif %}
+        </div>
+        <div class="legende-lib"> 
+          petite opération: 
+          <b id="opPetite"> {{ opPetite }} </b> {% if opPetite is not same as(0) %} <span> K €</span> {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  
+{% endblock %}
+

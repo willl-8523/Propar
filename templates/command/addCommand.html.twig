@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="{{ asset('asset/css/styles.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="script.js"></script>
+  </head>
+
+	<body>
+
+		<div class="hero">
+
+      <video autoplay loop muted plays-inline class="back-video">
+          <source src="{{ asset('images/videoAccueil.mp4') }}" type="video/mp4">
+      </video>
+
+      <nav>
+          <a class="logo" href="{{ path('home') }}"> PROPAR </a>  
+      </nav> 
+        
+      {{ form_start(command_form, {'attr': {'class' : "w-25 mx-auto mt-5"}}) }}
+            {{ form_row(command_form.name_customer, {'label' : 'Nom', 'attr': {'placeholder': 'Nom'}}) }}
+            {{ form_row(command_form.prenom_customer, {'label' : 'Prenom', 'attr': {'placeholder': 'Prenom'}}) }}
+            {{ form_row(command_form.email_customer, {'label' : 'Email', 'attr': {'placeholder': 'Email'}}) }}
+            {{ form_row(command_form.adress, {'label' : 'Adresse', 'attr': {'placeholder': 'Votre adresse'}}) }}
+            {{ form_row(command_form.description, {'label' : 'Description', 'attr': {'placeholder': 'Décrire l\'opération'}}) }}
+
+            <button name="submit" type="submit" class="btn btn-secondary">
+              {% if editMode %}
+                  Enregistrer les modifications
+              {% else %}
+                  Valider la commande
+              {% endif %}
+            </button>
+      {{ form_end(command_form)}}
+    </div>
+
+    <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
+	</body>
+</html>
+
+ <script>
+ 
+   $(document).ready(function(){
+
+       var parentTextarea = $("#command_form_adress").parent();
+       parentTextarea.append("<ul class=\"listeAdresse list-group\"></ul>");
+
+
+       $("#command_form_adress").keyup(function(e){
+           e.preventDefault();
+           e.stopPropagation();
+           console.log("click");
+           $("ul.listeAdresse").empty();
+           $.ajax({
+               url:"https://api-adresse.data.gouv.fr/search/?q=",
+               type:'get',
+               data: {
+                   q : $("#command_form_adress").val(),  // Nous récupérons la valeur de nos input que l'on fait passer à connexion.php
+                   limit : 2,
+               },
+               success:function(response){		
+               var tabFeatures = response.features;
+                   tabFeatures.forEach(element => {
+                       $(".listeAdresse").append("<li class=\"list-group-item\" id=\"liste\">" + element.properties.label + "</li>");
+                   });
+               },
+               error:function(response){
+                   console.log('error');
+               }
+              
+           });   
+       });
+
+       $('.listeAdresse').click(function(e){
+
+         // Attribuer au champ l'adresse selectionnée
+           $adresse = e.target.textContent;
+           console.log($adresse);
+           $("#command_form_adress").val($adresse);
+           $("ul.listeAdresse").empty();
+       });
+      
+   });
+
+  </script>
+
+

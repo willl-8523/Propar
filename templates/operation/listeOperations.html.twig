@@ -1,0 +1,74 @@
+{% extends "dashboard/expertDashboard.html.twig" %}
+
+{% block title %}Mes opérations{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
+{% endblock %}
+
+
+{% block col_content %}
+    
+    <div class="row w-100 m-0">
+        <div class="row" id="mess">
+            <div class="col-8">
+                <h4 class="text-primary d-inline">Mes opérations en cours...</h4>
+            </div>
+            <div class="col d-flex align-items-center">
+                {% for message in app.flashes('success') %}
+                    <h5 class="text-success" id="error"> ✓ {{ message }}</h5>
+                {% endfor %}
+            </div>
+        </div>      
+        {% for operation in operations %}
+            {% if (app.user.email == operation.emailUser) and (operation.statut == 'C') %}
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3" id="operationEnc">
+                    <div class="card mb-3 mx-auto" style="max-width:20rem">
+                        <div class="card-header text-center">
+                            <h4 class="text-center" style="color:#939595b4">Commande n°{{ operation.numCommand  }}</h4>
+                        </div>
+                        <div class="card-body text-center">
+
+                            <form method="POST" action="{{ path('op_terminee', {'id' : operation.id}) }}" style="display:inline-block;" class="operationEnc">
+                                <input type="hidden" name="_method" value="SUP"/>
+                                <input type="hidden" name="_token" value="{{ csrf_token("SUP" ~ operation.id) }}">
+                                <input type="submit" class="btn btn-success" value="Terminer"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <hr>
+    <div class="row w-100 m-0 operationTer">
+        <div class="row">
+            <div class="col-8">
+                <h4 class="text-primary">Mes opérations terminées</h4>
+            </div>
+            <div class="col d-flex align-items-center">
+                {% for message in app.flashes('mailSuccess') %}
+                    <h6 class="text-success" id="error"> ✓ {{ message }}</h6>
+                {% endfor %}
+            </div>
+        </div>   
+    
+        {% for operation in operations %}
+            {% if (app.user.email == operation.emailUser) and (operation.statut == 'T')  %}
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                    <div class="card mb-3 mx-auto" style="max-width:20rem">
+                        <div class="card-header text-center">
+                            <h5 class="text-center" style="color:#939595b4">Commande n° {{ operation.numCommand  }}</h5>
+                        </div>
+                        <div class="card-body text-center">
+                            <form method="POST" action="{{ path('app_pdf_generator', {'id' : operation.id}) }}" target="_blank" id="operationTer" style="display:inline-block;">
+                                <input type="submit" class="btn btn-success" value="PDF"/>
+                                <a href="{{ path('envoyer_mail', {'id' : operation.id}) }}" class="btn btn-secondary">Mail</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

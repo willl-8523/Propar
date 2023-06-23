@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>profil</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+		<link rel="stylesheet" href="{{ asset('asset/css/ProfileSlider.css') }}">
+	</head>
+	<body>
+		{# <div class="col1">a</div>
+		<div class="col2">b</div> #}
+		<div class="col3">
+			<section>
+				<div class="swiper mySwiper container">
+					<div class="swiper-wrapper content">
+
+						{% for utilisateur in user %}
+
+							<div class="swiper-slide card">
+								<div class="box1"></div>
+								<div class="card-content">
+									<div class="image">
+										{% if utilisateur.civilite == "HOMME" %}<img src="{{ asset('asset/photo1.png') }}" alt="">
+										{% else %}
+											<img src="{{ asset('asset/photo2.png') }}" alt="">
+										{% endif %}
+
+									</div>
+									<div class="media-icons">
+										<i class="fab fa-facebook"></i>
+										<i class="fab fa-twitter"></i>
+										<i class="fab fa-github"></i>
+									</div>
+									<div class="name-profession">
+										<span class="name">{{utilisateur.prenom}}
+											{{utilisateur.nom}}</span>
+										<span class="profession">
+											{# {{utilisateur.roles|join}} #}
+											{{ utilisateur.profil }}
+										</span>
+									</div>
+									<div class="rating">
+										{% if utilisateur.profil == "EXPERT"  %}
+											<i class="fas fa-star"></i>
+											<i class="fas fa-star"></i>
+											<i class="fas fa-star"></i>
+											<i class="fas fa-star"></i>
+											<i class="fas fa-star"></i>
+										{% elseif utilisateur.profil =="SENIOR" %}
+											<i class="fas fa-star"></i>
+											<i class="fas fa-star"></i>
+											<i class="fas fa-star"></i>
+										{% else %}
+											<i class="fas fa-star"></i>
+										{% endif %}
+									</div>
+									<div class="about">
+										<p>mon adresse:
+											{{utilisateur.adresse}}
+											<br>
+											🎂:
+											{{utilisateur.datenaissance | date("{d/m/Y}")}}
+											<br>
+											mon nom d'utilisateur:
+											{{utilisateur.username}}
+										</p>
+									</div>
+									<div class="button b1">
+										<a href="mailto:{{ utilisateur.email }}"><button class="aboutMe">Envoyer un mail</button></a>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+
+					</div>
+					<div class="swiper-button-next"></div>
+					<div class="swiper-button-prev"></div>
+					<div class="swiper-pagination"></div>
+				</section>
+			</div>
+		</div>
+
+		<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+		<script>
+
+			var swiper = new Swiper(".mySwiper", {
+
+slidePerView: 3,
+spaceBetween: 30,
+grabCursor: true,
+autoplay: {
+delay: 100000,
+disableOnInteraction: false,
+pauseOnMouseEnter: true
+},
+slidesPerGroup: 1,
+loop: true,
+loopFillGroupWithBlank: true,
+pagination: {
+el: ".swiper-pagination",
+clickable: true
+},
+navigation: {
+nextEl: ".swiper-button-next",
+prevEl: ".swiper-button-prev"
+}
+
+
+})
+		</script>
+	</body>
+</html></body></html>
